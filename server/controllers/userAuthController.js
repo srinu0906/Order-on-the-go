@@ -7,7 +7,7 @@ const registerUser = async (req,res ) => {
 
         const{userName,password,email} = req.body;
 
-        const existingUser = await User.findOne({email});
+        const existingUser = await User.findOne({email,userType:"user"});
         if(existingUser) {
             return res.status(400).json({message:"Email already in use"});
         }
