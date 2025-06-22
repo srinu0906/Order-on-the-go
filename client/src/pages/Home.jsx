@@ -27,6 +27,10 @@ const Home = () => {
     { name: 'Sweet Magic', image: '/images/sweetmagic.png', location: 'MG Road, Vijayawada.' },
     { name: 'Andhra Spice', image: '/images/andhraspice.jpeg', location: 'Labbipet, Vijayawada.' },
     { name: 'McDonalds', image: '/images/mcdonalds.jpeg', location: 'Auto Nagar, Vijayawada.' },
+    { name: 'Naidu Gari Kunda Biriyani', image: '/images/naidugari.jpeg', location: 'FoodCourt, Vijayawada.'},
+    { name: 'Paradise Biriyani', image: '/images/paradise.jpg', location: 'Trenset Mall, Vijayawada.'},
+    { name: 'KFC', image: '/images/KFC.png', location: 'Bandar Road, Vijayawada.'},
+    { name: 'Vani Sweets', image: '/images/vanisweets.png', location: 'Labbipet, Vijayawada.'},
   ];
 
   return (
