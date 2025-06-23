@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 const app = new express();
 app.use(express.json())
@@ -12,6 +13,7 @@ then().
 catch((err)=> console.log("error connecting mongoDb"));
 
 app.use("/api/auth",authRoutes);
+app.use('/api/products',productRoutes);
 
 app.get('/',(req,res)=>{
     res.send("Hello");
