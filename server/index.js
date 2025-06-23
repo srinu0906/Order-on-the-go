@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import restaurantRoutes from "./routes/restaurantRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = new express();
 app.use(express.json())
@@ -16,6 +17,7 @@ catch((err)=> console.log("error connecting mongoDb"));
 app.use("/api/auth",authRoutes);
 app.use('/api/products',productRoutes);
 app.use('/api/restaurants',restaurantRoutes);
+app.use('/api/admin',adminRoutes);
 
 app.get('/',(req,res)=>{
     res.send("Hello");

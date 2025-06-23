@@ -1,4 +1,4 @@
-import express from 'express';
+// import express from 'express';
 import Restaurant from '../models/Restaurant.js';
 import Admin from '../models/Admin.js';
 
@@ -15,7 +15,7 @@ const fetchRestaurants = async (req, res) => {
 
 const fetchPromotedRestaurants = async (req, res) => {
   try {
-    const admin = await Admin.findOne(); // Assuming single admin
+    const admin = await Admin.findOne();
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
