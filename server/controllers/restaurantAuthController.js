@@ -37,7 +37,7 @@ const registerRestaurant = async (req,res)=>{
 
         return res.status(201).json({message:"Restarant Sucessfully registered"})
     } catch(error){
-        res.status(500).json({message:"Server Error"});
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 
@@ -57,7 +57,7 @@ const loginRestaurant = async (req,res)=>{
         return res.status(200).json({message:"Restaurant login sucessful"});
 
     } catch(error){
-        return res.status(500).json({message:"Server Error"});
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 

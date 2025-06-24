@@ -26,7 +26,7 @@ const registerUser = async (req,res ) => {
         return res.status(201).json({message:"User Registered Successfully"})
 
     } catch(error){
-        return res.status(500).json({ message :"Server Error"})
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 
 };
@@ -49,7 +49,7 @@ const loginUser = async (req,res)=>{
         return res.status(200).json({message:"Login Successful"});
         
     } catch(error){
-        return res.status(500).json({message:"Server Error"});
+        return res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 
