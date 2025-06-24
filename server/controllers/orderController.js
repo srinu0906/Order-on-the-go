@@ -111,5 +111,32 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+const getRestaurantOrders = async (req, res) => {
+  try {
+    const { restaurantId } = req.params;
 
-export {placeOrder,updateOrderStatus,getOrderStatus,getOrderHistory,deleteOrder};
+    // Get all products for this restaurant
+    const restaurantProducts = await Product.find({ restaurantId }, "_id");
+    const productIds = restaurantProducts.map(p => p._id.toString());
+
+    if (productIds.length === 0) {
+      return res.status(200).json([]); // No products, so no orders
+    }
+
+    // Find all orders that contain at least one of the restaurant's products
+    const orders = await Order.find({
+      items: {
+        $elemMatch: {
+          productId: { $in: productIds }
+        }
+      }
+    });
+
+    return res.status(200).json(orders);
+
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+export {placeOrder,updateOrderStatus,getOrderStatus,getOrderHistory,deleteOrder,getRestaurantOrders};
