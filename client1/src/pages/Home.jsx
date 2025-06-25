@@ -1,68 +1,75 @@
 // File: src/pages/Home.jsx
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import Header from '../components/Header';
-import CategoryCard from '../components/CategoryCard';
-import RestaurantCard from '../components/RestaurantCard';
-import './Home.css';
+import Footer from '../components/Footer';
+import '../styles//Home.css';
+
+const categories = [
+  { name: 'Breakfast', image: 'https://thepepper.in/wp-content/uploads/2019/02/Idly-Vada.jpg' },
+  { name: 'Meals', image: 'https://rakskitchen.net/wp-content/uploads/2013/08/9634876480_20d7ac8196_o.jpg' },
+  { name: 'Biriyani', image: 'https://5.imimg.com/data5/SELLER/Default/2020/9/TM/KJ/OG/2707316/mutton-biriyani-masala-500x500.jpg' },
+  { name: 'Veg', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlSJrMlNj7HvyrNNJG6U82ady6rciMYqQtTw&s' },
+  { name: 'Non-Veg', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiJKsEFGitxlp_2tMePrpOeOfisp1v9qeQ39Iu2epk-Cp4Csg_RImlPesjTR2vU7pEtLc&usqp=CAU' },
+];
 
 const Home = () => {
-  const categories = [
-    { title: 'Breakfast', image: '/images/breakfast.jpeg', isActive: true },
-    { title: 'Pizza', image: '/images/pizza.jpeg' },
-    { title: 'Noodles', image: '/images/noodles.jpeg' },
-    { title: 'Burger', image: '/images/burger.jpeg' },
-    { title: 'Momos', image: '/images/momos.jpeg' },
-  ];
+  const navigate = useNavigate();
+  const [popularRestaurants, setPopularRestaurants] = useState([]);
 
-  const popularRestaurants = [
-    { name: 'McDonalds', image: '/images/mcdonalds.jpeg' },
-    { name: 'BURGER KING', image: '/images/burgerking.jpeg' },
-    { name: 'Naidu Gari', image: '/images/naidugari.jpeg' },
-  ];
+  useEffect(() => {
+    const fetchPromoted = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/restaurants/all');
+        setPopularRestaurants(res.data);
+      } catch (err) {
+        console.error('Error fetching promoted restaurants:', err);
+      }
+    };
 
-  const allRestaurants = [
-    { name: 'BURGER KING', image: '/images/burgerking.jpeg', location: 'PVP Square, Vijayawada.' },
-    { name: "Domino’s Pizza", image: '/images/dominos.jpeg', location: 'Bandar Road, Vijayawada.' },
-    { name: 'TACO BELL', image: '/images/tacobell.jpeg', location: 'Labbipet, Vijayawada.' },
-    { name: 'Sweet Magic', image: '/images/sweetmagic.png', location: 'MG Road, Vijayawada.' },
-    { name: 'Andhra Spice', image: '/images/andhraspice.jpeg', location: 'Labbipet, Vijayawada.' },
-    { name: 'McDonalds', image: '/images/mcdonalds.jpeg', location: 'Auto Nagar, Vijayawada.' },
-    { name: 'Naidu Gari Kunda Biriyani', image: '/images/naidugari.jpeg', location: 'FoodCourt, Vijayawada.'},
-    { name: 'Paradise Biriyani', image: '/images/paradise.jpg', location: 'Trenset Mall, Vijayawada.'},
-    { name: 'KFC', image: '/images/KFC.png', location: 'Bandar Road, Vijayawada.'},
-    { name: 'Vani Sweets', image: '/images/vanisweets.png', location: 'Labbipet, Vijayawada.'},
-  ];
+    fetchPromoted();
+  }, []);
 
   return (
     <>
       <Header />
 
-      <div className="container">
+      <div className="home-container">
+        {/* Categories */}
+        <h2>Popular Categories</h2> <br />
         <div className="categories">
-          {categories.map((category, index) => (
-            <CategoryCard key={index} {...category} />
+          {categories.map((cat, index) => (
+            <div
+              className="category-card"
+              key={index}
+              onClick={() => navigate(`/category/${cat.name.toLowerCase()}`)}
+            >
+              <img src={cat.image} alt={cat.name} />
+              <p>{cat.name}</p>
+            </div>
           ))}
         </div>
 
-        <h2>Popular Restaurants</h2>
+        {/* Popular Restaurants */}
+        <br />
+        <h2>Popular Restaurants</h2><br />
         <div className="restaurants">
-          {popularRestaurants.map((restaurant, index) => (
-            <RestaurantCard key={index} {...restaurant} />
-          ))}
-        </div>
-
-        <h2>All Restaurants</h2>
-        <div className="restaurants all">
-          {allRestaurants.map((restaurant, index) => (
-            <RestaurantCard key={index} {...restaurant} />
+          {popularRestaurants.map((rest, index) => (
+            <div
+              className="restaurant-card"
+              key={index}
+              onClick={() => navigate(`/restaurant/${rest._id}`)}
+            >
+              <img src={rest.imageUrl} alt={rest.restaurantName} />
+              <p>{rest.restaurantName}</p>
+            </div>
           ))}
         </div>
       </div>
 
-      <footer className="footer">
-        <p>@OrderOnTheGo Foods - Live it up!!</p>
-        <p>©OrderOnTheGo.com - All rights reserved</p>
-      </footer>
+      <Footer />
     </>
   );
 };

@@ -1,26 +1,38 @@
-// File: src/components/Header.jsx
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ import useNavigate
-import './Header.css';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Header.css';
 
-const Header = () => {
-  const navigate = useNavigate(); // ✅ create navigate function
+const Header = ({ isLoggedIn }) => {
+  const navigate = useNavigate();
 
   return (
     <header className="header">
+      {/* Logo */}
       <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <img src="/images/logo1.png" alt="Logo" />
+        <img src="/images/logo1.png" alt="SBfoods" />
         <span>
-          Order<span className="red">OnTheGo</span>
+          SB<span className="red">foods</span>
         </span>
       </div>
-      <input className="search" type="text" placeholder="Search Restaurants, Cuisines etc" />
-      <button className="login-btn" onClick={() => navigate('/login')}>
-        Login
-      </button>
-      <button className="login-btn" onClick={() => navigate('/register')}>
-       Register
-      </button>
+
+      {/* Search */}
+      <input
+        className="search"
+        type="text"
+        placeholder="Search for food or restaurants..."
+      />
+
+      {/* Buttons */}
+      {!isLoggedIn ? (
+        <div className="auth-buttons">
+          <button onClick={() => navigate('/login')}>Login</button>
+          <button onClick={() => navigate('/register')}>Register</button>
+        </div>
+      ) : (
+        <div className="user-section">
+          <button onClick={() => navigate('/cart')}>🛒 Cart</button>
+          <button onClick={() => navigate('/profile')}>👤 Profile</button>
+        </div>
+      )}
     </header>
   );
 };
