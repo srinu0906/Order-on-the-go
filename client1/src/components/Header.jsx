@@ -1,14 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
+import { useAuth } from '../context/AuthContext'; // ✅ Import context
 
-const Header = ({ isLoggedIn }) => {
+const Header = () => {
   const navigate = useNavigate();
+  const { user } = useAuth(); // ✅ Get logged-in user from context
+
+  const isLoggedIn = !!user;
 
   return (
     <header className="header">
       {/* Logo */}
       <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <img src="/images/logo1.png" alt="SBfoods" />
+        <img src="/sb-foods.png" alt="SBfoods" />
         <span>
           SB<span className="red">foods</span>
         </span>
