@@ -3,12 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fffaf5; /* soft red background */
+  background-color: #fff3df; /* soft red background */
   padding: 12px 24px;
   border-bottom: 2px solid #e63946;
   box-shadow: 0 2px 5px rgba(230, 57, 70, 0.1);
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
+}
 /* Logo section */
 .logo {
   display: flex;
@@ -99,4 +99,57 @@
 .dropdown p:hover {
   background-color: #ffe5e5;
   color: #e63946;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.search {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.suggestion-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestion-box li {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion-box li:hover {
+  background-color: #f5f5f5;
+}
+
+.suggestion-box .type {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.suggestion-box li {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.suggestion-box li:hover {
+  background-color: #f0f0f0;
 }
