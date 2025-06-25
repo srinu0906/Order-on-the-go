@@ -3,7 +3,7 @@ import Product from "../models/Product.js";
 
 const addToCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body;
+    const { userId, productId ,quantity} = req.body;
 
     const product = await Product.findById(productId);
     if (!product) {
@@ -24,7 +24,7 @@ const addToCart = async (req, res) => {
       if (itemIndex > -1) {
         cart.items[itemIndex].quantity += 1;
       } else {
-        cart.items.push({ productId, quantity: 1 });
+        cart.items.push({ productId, quantity});
       }
 
       // Recalculate price
@@ -42,7 +42,7 @@ const addToCart = async (req, res) => {
       cart = new Cart({
         userId,
         restaurantId: product.restaurantId,
-        items: [{ productId, quantity: 1 }],
+        items: [{ productId, quantity}],
         totalPrice: product.price
       });
 
@@ -59,7 +59,7 @@ const addToCart = async (req, res) => {
 
 const getCartItems = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.query;
 
     const cart = await Cart.findOne({ userId });
     if (!cart) {

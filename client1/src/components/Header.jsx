@@ -33,6 +33,7 @@ const Header = () => {
         </div>
       ) : (
         <div className="user-section">
+          <button onClick={() => navigate('/orders')}>📦 Orders</button>
           <button onClick={() => navigate('/cart')}>🛒 Cart</button>
           <button onClick={() => navigate('/profile')}>👤 Profile</button>
         </div>

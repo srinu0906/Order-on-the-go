@@ -82,7 +82,7 @@ const getOrderStatus = async (req, res) => {
 
 const getOrderHistory = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.query;
 
     const orders = await Order.find({ userId });
 
@@ -96,7 +96,7 @@ const getOrderHistory = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const { orderId } = req.query;
 
     const deleted = await Order.findByIdAndDelete(orderId);
 
