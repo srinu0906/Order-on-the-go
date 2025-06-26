@@ -32,4 +32,36 @@ const fetchPromotedRestaurants = async (req, res) => {
   }
 };
 
-export {fetchPromotedRestaurants,fetchRestaurants};
+const postRating = async (req, res) => {
+  try {
+    const { restaurantId, rating } = req.body;
+
+    if (!restaurantId || typeof rating !== "number" || rating < 0 || rating > 5) {
+      return res.status(400).json({ message: "Invalid input data" });
+    }
+
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const currentTotal = restaurant.totalRatings || 0;
+    const currentRating = restaurant.rating || 0;
+
+    const newTotal = currentTotal + 1;
+    const newAverageRating = ((currentRating * currentTotal) + rating) / newTotal;
+
+    restaurant.rating = newAverageRating;
+    restaurant.totalRatings = newTotal;
+
+    await restaurant.save();
+
+    return res.status(200).json({ message: "Rating submitted", updatedRestaurant: restaurant });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
+export {fetchPromotedRestaurants,fetchRestaurants,postRating};
