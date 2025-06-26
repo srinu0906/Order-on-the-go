@@ -33,8 +33,8 @@ const Orders = () => {
       const res = await axios.get(`http://localhost:5000/api/orders/history?userId=${user._id}`);
       const allOrders = res.data;
 
-      const live = allOrders.filter(o => o.status !== 'Delivered');
-      const history = allOrders.filter(o => o.status == 'Delivered');
+      const live = allOrders.filter(o => o.status.toLowerCase() !== 'delivered');
+      const history = allOrders.filter(o => o.status.toLowerCase() == 'delivered');
 
       setLiveOrders(live);
       setHistoryOrders(history);
@@ -77,16 +77,16 @@ const Orders = () => {
 
   const handleRatingSubmit = async (restaurantId) => {
     const rating = ratings[restaurantId];
-    if (!rating) {
-      alert("Please select a rating first.");
+
+    // Validate rating before submitting
+    if (!rating || isNaN(rating)) {
+      alert("Please select a valid rating.");
       return;
     }
 
     try {
-      await axios.post("http://localhost:5000/api/restaurants/rating", {
-        restaurantId,
-        rating
-      });
+      await axios.post(`http://localhost:5000/api/restaurants/rating?restaurantId=${restaurantId}&rating=${rating}`);
+
       alert("Rating submitted successfully!");
     } catch (err) {
       console.error("Failed to submit rating:", err);
@@ -95,11 +95,18 @@ const Orders = () => {
   };
 
 
+
   return (
     <>
       <Header />
+      <br /><br />
       <div className="orders-container">
         <h2>📦 Live Orders</h2>
+        <button className='refresh-button'
+          onClick={fetchOrders}
+          >
+          🔄 Refresh Orders
+        </button>
         {liveOrders.length === 0 ? <p>No ongoing orders.</p> : (
           <div className="order-list">
             {liveOrders.map(order => (
@@ -123,7 +130,8 @@ const Orders = () => {
             <p><strong>Items:</strong></p>
             <ul>{renderItems(order.items)}</ul>
             <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
-            <p><strong>{new Date(order.createdAt).toDateString()} {new Date(order.createdAt).toLocaleTimeString()}</strong></p>
+            {/* <p><strong>{new Date(order.createdAt).toDateString()} {new Date(order.createdAt).toLocaleTimeString()}</strong></p> */}
+            <p><strong>{order.createdAt}</strong></p>
 
             {/* ⭐ Rating section */}
             <div style={{ marginTop: '10px' }}>
@@ -132,9 +140,13 @@ const Orders = () => {
                 id={`rating-${order.restaurantId}`}
                 value={ratings[order.restaurantId] || ''}
                 onChange={(e) =>
-                  setRatings(prev => ({ ...prev, [order.restaurantId]: parseInt(e.target.value) }))
+                  setRatings(prev => ({
+                    ...prev,
+                    [order.restaurantId]: Number(e.target.value) // ✅ parse as number
+                  }))
                 }
               >
+
                 <option value="">Select</option>
                 {[1, 2, 3, 4, 5].map(num => (
                   <option key={num} value={num}>{num}</option>

@@ -53,24 +53,36 @@ const handleOrderNow = async () => {
   }
   if (!user || !product) return;
 
-  const orderPayload = {
-    userId: user._id,
-    items: [
-      {
-        productId: product._id,
-        quantity: quantity
-      }
-    ]
-  };
-
   try {
-    const res = await axios.post('http://localhost:5000/api/orders/place', orderPayload);
-    alert('Order placed successfully!');
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      const now = new Date();
+      const createdAt = "📌 latitude : "+latitude +" longitude "+longitude+ " 🗓️ "+now.toDateString() + " ⏰ "+now.toLocaleTimeString();
+
+      const orderPayload = {
+        userId: user._id,
+        items: [
+          {
+            productId: product._id,
+            quantity: quantity
+          }
+        ],
+        createdAt
+        
+      };
+
+      const res = await axios.post('http://localhost:5000/api/orders/place', orderPayload);
+      alert('Order placed successfully!');
+    }, (error) => {
+      console.error('Failed to get location:', error);
+      alert('Please enable location access to place the order.');
+    });
   } catch (err) {
     console.error('Order failed:', err);
     alert('Failed to place order. Please try again.');
   }
 };
+
 
 
   const getFinalPrice = () => {
@@ -82,6 +94,7 @@ const handleOrderNow = async () => {
   return (
     <>
       <Header />
+      <br /><br />
       <div className="product-detail-container">
         {product ? (
           <div className="product-detail-top">

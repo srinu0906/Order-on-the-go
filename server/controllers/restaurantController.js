@@ -34,14 +34,14 @@ const fetchPromotedRestaurants = async (req, res) => {
 
 const postRating = async (req, res) => {
   try {
-    const { restaurantId, rating } = req.body;
+    const { restaurantId } = req.query;
+    const rating = Number(req.query.rating); // ✅ convert to number
 
-    if (!restaurantId || typeof rating !== "number" || rating < 0 || rating > 5) {
+    if (!restaurantId || isNaN(rating) || rating < 0 || rating > 5) {
       return res.status(400).json({ message: "Invalid input data" });
     }
 
     const restaurant = await Restaurant.findById(restaurantId);
-
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
@@ -62,6 +62,7 @@ const postRating = async (req, res) => {
     return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 export {fetchPromotedRestaurants,fetchRestaurants,postRating};

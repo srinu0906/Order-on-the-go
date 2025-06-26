@@ -12,7 +12,7 @@ const orderSchema = new mongoose.Schema({
   status: { type: String, default: 'pending' },
   discount:{type: Number , default:0},
   finalPrice: {type: Number},
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: String }
 });
 
 export default mongoose.model('Order', orderSchema);
