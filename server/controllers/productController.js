@@ -47,6 +47,8 @@ const fetchProduct = async (req, res) => {
     const filter = {};
     if (restaurantId) filter.restaurantId = restaurantId;
     if (category) filter.category = category;
+    if (req.query.id) filter._id = req.query.id;
+
 
     const products = await Product.find(filter);
 

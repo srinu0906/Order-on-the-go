@@ -28,7 +28,7 @@ const promoteRestaurant = async (req,res) =>{
         return res.status(200).json({message:"Restaurant promoted sucessfully"});
 
     } catch(error){
-        return res.send(500).json({message:"Server Error",error:error.message});
+        return res.status(500).json({message:"Server Error",error:error.message});
     }
 }
 
