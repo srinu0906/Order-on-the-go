@@ -78,6 +78,8 @@ const Home = () => {
             >
               <img src={rest.imageUrl} alt={rest.restaurantName} />
               <p>{rest.restaurantName}</p>
+              <p>⭐{rest.rating.toFixed(1)}/5 <br/>
+              {rest.totalRatings} ratings</p>
             </div>
           ))}
 
@@ -96,6 +98,8 @@ const Home = () => {
             >
               <img src={rest.imageUrl} alt={rest.restaurantName} />
               <p>{rest.restaurantName}</p>
+              <p>⭐{rest.rating.toFixed(1)}/5 <br/>
+              {rest.totalRatings} ratings</p>
             </div>
           ))}
 
