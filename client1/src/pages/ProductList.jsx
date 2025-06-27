@@ -37,6 +37,7 @@ const ProductList = () => {
   return (
     <>
       <Header />
+      <br /><br />
       <div className="product-list-page">
         <h2>{category ? `${category.toUpperCase()} Items` : 'Menu'}</h2> <br />
         <div className="products-container">

@@ -53,8 +53,8 @@ const loginRestaurant = async (req,res)=>{
         if(!isMatch){
             return res.status(400).json({message:"Incorrect password"});
         }
-
-        return res.status(200).json({message:"Restaurant login sucessful"});
+        const restaurant = await Restaurant.find({ownerId:user._id});
+        return res.status(200).json(restaurant);
 
     } catch(error){
         return res.status(500).json({ message: "Server error", error: error.message });

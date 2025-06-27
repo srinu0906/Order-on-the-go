@@ -32,4 +32,24 @@ const promoteRestaurant = async (req,res) =>{
     }
 }
 
-export {adminLogin,promoteRestaurant};
+import Users from '../models/User.js'; // adjust path as needed
+
+// Dashboard Overview Controller
+const getDashboardOverview = async (req, res) => {
+  try {
+    // Count users and restaurants
+    const totalUsers = await Users.countDocuments({ userType: 'user' });
+    const totalRestaurants = await Users.countDocuments({ userType: 'restaurant' });
+
+    res.status(200).json({
+      totalUsers,
+      totalRestaurants
+    });
+  } catch (err) {
+    console.error("Dashboard overview error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+export {adminLogin,promoteRestaurant,getDashboardOverview};

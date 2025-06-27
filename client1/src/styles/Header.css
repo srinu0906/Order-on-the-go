@@ -1,5 +1,10 @@
 /* Main header layout */
 .header {
+  position: fixed;                /* ✅ Fixed position */
+  top: 0;                         /* ✅ Stick to top */
+  left: 0;
+  right: 0;
+  z-index: 1000; 
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,7 +15,7 @@
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 /* Logo section */
-.logo {
+.logo { 
   display: flex;
   align-items: center;
   gap: 8px;

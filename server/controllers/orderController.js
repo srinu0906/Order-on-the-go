@@ -3,7 +3,7 @@ import Product from '../models/Product.js';
 
 const placeOrder = async (req, res) => {
   try {
-    const { userId, items } = req.body;
+    const { userId, items, createdAt } = req.body;
 
     let totalPrice = 0;
     let finalPrice = 0;
@@ -27,6 +27,7 @@ const placeOrder = async (req, res) => {
       items,
       totalPrice,
       finalPrice,
+      createdAt
     });
 
     await newOrder.save();

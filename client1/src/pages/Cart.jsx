@@ -56,33 +56,44 @@ const handlePlaceOrder = async () => {
     return;
   }
 
-  const orderData = {
-    userId: user._id,
-    items: cart.items.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity
-    }))
-  };
+  // Get current position
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const { latitude, longitude } = position.coords;
+    const now = new Date();
+    const createdAt = "📌 latitude : "+latitude +" longitude "+longitude+ " 🗓️ "+now.toDateString() + " ⏰ "+now.toLocaleTimeString();
 
-  try {
-    // Step 1: Place the order
-    await axios.post('http://localhost:5000/api/orders/place', orderData);
-    alert("Order placed successfully!");
+    const orderData = {
+      userId: user._id,
+      items: cart.items.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity
+      })),
+      createdAt
+    };
 
-    // Step 2: Delete each item from the cart
-    for (const item of cart.items) {
-      await axios.post('http://localhost:5000/api/cart/deleteItem', {
-        userId: user._id,
-        productId: item.productId
-      });
+    try {
+      // Step 1: Place the order
+      await axios.post('http://localhost:5000/api/orders/place', orderData);
+      alert("Order placed successfully!");
+
+      // Step 2: Delete each item from the cart
+      for (const item of cart.items) {
+        await axios.post('http://localhost:5000/api/cart/deleteItem', {
+          userId: user._id,
+          productId: item.productId
+        });
+      }
+
+      // Step 3: Refresh the cart
+      fetchCart(); // This will set cart to null if empty
+    } catch (err) {
+      console.error("Failed to place order:", err);
+      alert("Failed to place order");
     }
-
-    // Step 3: Refresh the cart
-    fetchCart(); // This will set cart to null if empty
-  } catch (err) {
-    console.error("Failed to place order:", err);
-    alert("Failed to place order");
-  }
+  }, (error) => {
+    console.error("Location access denied or failed:", error);
+    alert("Please enable location access to place the order.");
+  });
 };
 
 
@@ -101,6 +112,7 @@ const handlePlaceOrder = async () => {
   return (
     <>
       <Header />
+      <br /><br />
       <div className="cart-container">
         <h2>Your Cart</h2> <br />
         {!cart || !cart.items || cart.items.length === 0 ? (

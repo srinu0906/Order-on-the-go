@@ -17,6 +17,7 @@ const Profile = () => {
   return (
     <>
     <Header/>
+    <br /><br />
     <div className="profile-page">
       <h2>User Profile</h2>
       <div className="profile-card">
