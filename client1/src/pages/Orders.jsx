@@ -77,16 +77,28 @@ const Orders = () => {
 
   const handleRatingSubmit = async (restaurantId) => {
     const rating = ratings[restaurantId];
+<<<<<<< HEAD
 
     // Validate rating before submitting
     if (!rating || isNaN(rating)) {
       alert("Please select a valid rating.");
+=======
+    if (!rating) {
+      alert("Please select a rating first.");
+>>>>>>> 5fc867efe9c30379a44b1412136f8b3a0b2646ad
       return;
     }
 
     try {
+<<<<<<< HEAD
       await axios.post(`http://localhost:5000/api/restaurants/rating?restaurantId=${restaurantId}&rating=${rating}`);
 
+=======
+      await axios.post("http://localhost:5000/api/restaurants/rating", {
+        restaurantId,
+        rating
+      });
+>>>>>>> 5fc867efe9c30379a44b1412136f8b3a0b2646ad
       alert("Rating submitted successfully!");
     } catch (err) {
       console.error("Failed to submit rating:", err);
@@ -95,7 +107,10 @@ const Orders = () => {
   };
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5fc867efe9c30379a44b1412136f8b3a0b2646ad
   return (
     <>
       <Header />
@@ -130,8 +145,12 @@ const Orders = () => {
             <p><strong>Items:</strong></p>
             <ul>{renderItems(order.items)}</ul>
             <p><strong>Total Price:</strong> ₹{order.totalPrice}</p>
+<<<<<<< HEAD
             {/* <p><strong>{new Date(order.createdAt).toDateString()} {new Date(order.createdAt).toLocaleTimeString()}</strong></p> */}
             <p><strong>{order.createdAt}</strong></p>
+=======
+            <p><strong>{new Date(order.createdAt).toDateString()} {new Date(order.createdAt).toLocaleTimeString()}</strong></p>
+>>>>>>> 5fc867efe9c30379a44b1412136f8b3a0b2646ad
 
             {/* ⭐ Rating section */}
             <div style={{ marginTop: '10px' }}>
@@ -140,6 +159,7 @@ const Orders = () => {
                 id={`rating-${order.restaurantId}`}
                 value={ratings[order.restaurantId] || ''}
                 onChange={(e) =>
+<<<<<<< HEAD
                   setRatings(prev => ({
                     ...prev,
                     [order.restaurantId]: Number(e.target.value) // ✅ parse as number
@@ -147,6 +167,11 @@ const Orders = () => {
                 }
               >
 
+=======
+                  setRatings(prev => ({ ...prev, [order.restaurantId]: parseInt(e.target.value) }))
+                }
+              >
+>>>>>>> 5fc867efe9c30379a44b1412136f8b3a0b2646ad
                 <option value="">Select</option>
                 {[1, 2, 3, 4, 5].map(num => (
                   <option key={num} value={num}>{num}</option>
